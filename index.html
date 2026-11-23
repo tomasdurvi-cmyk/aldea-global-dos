@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entregas del proyecto · Triángulo Creativo | Aldea Global 2</title>
+<meta name="description" content="Proyecto de internacionalización de Triángulo Creativo Agencia S.A.S., entrega por entrega. Aldea Global 2 · ESIC.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --navy:#0e1530; --navy2:#151e3f; --ink:#141a2e; --muted:#5d6579; --line:#e4e7ee; --paper:#f6f5f2; --card:#fff;
+  --blue:#2f55e4; --blue-soft:#e8edfd; --orange:#f26b3a; --orange-soft:#fdeee7;
+  --pe:#d1453b; --pa:#1f8a70; --cr:#2f55e4; --co:#c99a1e;
+  --r1:#b42318; --r2:#d4622a; --r3:#b58600; --r4:#2e8b57; --r5:#1d6b45;
+  --side:260px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--paper);font-size:15.5px;line-height:1.6}
+h1,h2,h3,h4{font-family:"Space Grotesk",Inter,sans-serif;letter-spacing:-.02em;margin:0}
+a{color:inherit}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:99;background:#fff;padding:8px}
+
+/* ---------- SIDEBAR ---------- */
+aside{position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--navy);color:#fff;display:flex;flex-direction:column;z-index:50;transition:transform .25s}
+.side-top{padding:22px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:flex-start}
+.side-top b{font-family:"Space Grotesk";font-size:18px;display:block}
+.side-top small{color:#9aa3bd;font-size:13px}
+.side-close{display:none;background:rgba(255,255,255,.08);border:0;color:#fff;width:38px;height:38px;border-radius:10px;font-size:18px;cursor:pointer}
+.side-nav{padding:14px 10px;flex:1;overflow:auto}
+.side-nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;text-decoration:none;color:#e6e9f2;font-size:14.5px;margin-bottom:4px;border-left:3px solid transparent}
+.side-nav a:hover{background:rgba(255,255,255,.06)}
+.side-nav a.active{background:rgba(47,85,228,.22);border-left-color:var(--orange);font-weight:600}
+.side-nav .lbl{font-size:11px;letter-spacing:.12em;color:#8f98b3;font-weight:700;margin:16px 12px 8px}
+.num{width:28px;height:28px;border:1px solid rgba(255,255,255,.25);border-radius:7px;display:grid;place-items:center;font-size:12.5px;font-weight:700;flex:none}
+.side-nav a.active .num{border-color:var(--orange);color:var(--orange)}
+.side-nav a.soon{color:#6f7792;pointer-events:none}
+.side-nav a.soon .num{border-color:rgba(255,255,255,.12)}
+.side-foot{padding:16px 20px;border-top:1px solid rgba(255,255,255,.08);font-size:12.5px;color:#9aa3bd}
+.side-foot b{color:#fff;display:block}
+.menu-btn{display:none;position:fixed;top:12px;left:12px;z-index:60;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:9px 13px;font-weight:600;cursor:pointer}
+
+/* ---------- MAIN ---------- */
+main{margin-left:var(--side);min-height:100vh}
+.topbar{background:var(--navy2);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:16px 36px}
+.brand{display:flex;align-items:center;gap:10px;font-family:"Space Grotesk";font-weight:700;font-size:17px;line-height:1.05}
+.brand .tri{width:34px;height:30px}
+.brand span small{display:block;font-weight:500;font-size:14px}
+.topbar .tag{color:#aab2cc;font-size:13px}
+.view{display:none}.view.on{display:block}
+
+.hero{background:var(--navy2);color:#fff;padding:56px 36px 64px;position:relative;overflow:hidden}
+.hero .eyebrow{color:var(--orange);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+.hero h1{font-size:clamp(40px,6vw,76px);line-height:.98;margin:16px 0 22px;max-width:900px}
+.hero h1 em{font-style:normal;color:var(--orange)}
+.hero p{color:#c9cfe2;max-width:720px;font-size:17px}
+.hero .ring{position:absolute;right:-120px;top:-60px;width:420px;height:420px;border:56px solid rgba(47,85,228,.25);border-radius:50%}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;position:relative}
+@media(max-width:1000px){.hero-grid{grid-template-columns:1fr}}
+.hero-card{background:#fff;border-radius:18px;padding:18px;color:var(--ink)}
+.btn{display:inline-block;background:var(--orange);color:#fff;text-decoration:none;font-weight:600;padding:13px 22px;border-radius:10px;margin-top:22px;border:0;cursor:pointer;font-size:15px}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.3);margin-left:8px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(255,255,255,.1);border-radius:14px;overflow:hidden;margin-top:40px;max-width:980px;position:relative}
+.stats div{background:var(--navy2);padding:16px}
+.stats b{font-family:"Space Grotesk";font-size:30px;display:block}
+.stats span{color:#aab2cc;font-size:13px}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+.subnav{position:sticky;top:0;z-index:30;background:var(--navy);display:flex;gap:2px;overflow-x:auto;padding:0 24px;border-bottom:1px solid rgba(255,255,255,.08)}
+.subnav button{background:none;border:0;color:#cfd5e6;font:500 14.5px Inter;padding:15px 14px;white-space:nowrap;cursor:pointer;border-bottom:3px solid transparent}
+.subnav button:hover{color:#fff}
+.subnav button.on{color:#fff;border-bottom-color:var(--orange);font-weight:600}
+.filterbar{position:sticky;top:51px;z-index:29;background:var(--navy);display:flex;gap:8px;align-items:center;padding:8px 24px 12px;flex-wrap:wrap}
+.filterbar span{color:#aab2cc;font-size:13px;margin-right:4px}
+.filterbar button{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#fff;border-radius:9px;padding:7px 13px;font:500 13.5px Inter;cursor:pointer;display:flex;align-items:center;gap:7px}
+.filterbar button.on{background:var(--orange);border-color:var(--orange)}
+.filterbar i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+.wrap{max-width:1180px;padding:44px 36px;margin:auto}
+.sec{scroll-margin-top:110px;margin-bottom:56px}
+.sec-head .k{color:var(--orange);font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+.sec-head h2{font-size:clamp(28px,3.4vw,40px);margin:6px 0 8px}
+.sec-head p{color:var(--muted);max-width:820px;margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1000px){.grid3,.grid4{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.grid2,.grid3,.grid4{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#f3f4f8;font-weight:600;font-size:13px}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tbl{overflow-x:auto}
+.note{background:#fff8e5;border:1px solid #f1dda4;border-radius:10px;padding:10px 12px;font-size:13.5px;margin-top:12px}
+.muted{color:var(--muted)}
+.src{font-size:13px;color:var(--muted);margin-top:14px}
+.src a{color:var(--blue);word-break:break-word}
+.chart{position:relative;height:280px}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.pill.o{background:var(--orange-soft);color:var(--orange)}
+.pill.g{background:#eceef3;color:#69708a}
+
+/* ---------- OVERVIEW CARDS ---------- */
+.ecards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:1000px){.ecards{grid-template-columns:1fr 1fr}}@media(max-width:650px){.ecards{grid-template-columns:1fr}}
+.ecard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;min-height:260px}
+.ecard .top{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.ecard h3{font-size:24px;margin:16px 0 10px;line-height:1.15}
+.ecard p{color:var(--muted);font-size:14.5px;flex:1;margin:0}
+.ecard a{margin-top:18px;font-weight:600;text-decoration:none;border-bottom:2px solid var(--orange);align-self:flex-start;cursor:pointer}
+.ecard.soon{opacity:.6;background:#fafafa}
+
+/* ---------- ENTREGA 1 ---------- */
+.list-num{counter-reset:n}
+.list-num>div{display:grid;grid-template-columns:70px 1fr;gap:10px;padding:18px 0;border-bottom:1px solid var(--line)}
+.list-num>div b.n{font-family:"Space Grotesk";font-size:30px;color:var(--orange)}
+.list-num h4{font-size:19px;margin-bottom:4px}
+.canvas{display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:auto auto auto;gap:10px}
+.canvas>div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13.5px}
+.canvas h4{font-size:15px;margin-bottom:6px;color:var(--blue)}
+.canvas .vp{grid-column:3;grid-row:1/3;background:var(--blue-soft);border-color:#c9d4fb}
+.canvas .sk{grid-column:1;grid-row:1/3}.canvas .ak{grid-column:2;grid-row:1}.canvas .rc{grid-column:2;grid-row:2}
+.canvas .cr{grid-column:4;grid-row:1}.canvas .ch{grid-column:4;grid-row:2}.canvas .cs{grid-column:5;grid-row:1/3}
+.canvas .co{grid-column:1/3;grid-row:3}.canvas .ri{grid-column:3/6;grid-row:3}
+.canvas .peru{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);color:var(--muted)}
+@media(max-width:900px){.canvas{grid-template-columns:1fr}.canvas>div{grid-column:auto!important;grid-row:auto!important}}
+.dofa{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dofa>div{border-radius:14px;padding:18px;border:1px solid var(--line);background:#fff}
+.dofa h4{font-size:16px;margin-bottom:8px}
+.dofa ul{margin:0;padding-left:18px;font-size:14px}.dofa li{margin-bottom:6px}
+.dofa .F{border-top:5px solid var(--r4)}.dofa .D{border-top:5px solid var(--r2)}.dofa .O{border-top:5px solid var(--blue)}.dofa .A{border-top:5px solid var(--r1)}
+@media(max-width:700px){.dofa{grid-template-columns:1fr}}
+.big{font-family:"Space Grotesk";font-size:44px;font-weight:700;line-height:1}
+.smart{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.smart div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:13.5px}
+.smart b{font-family:"Space Grotesk";font-size:28px;color:var(--orange);display:block}
+@media(max-width:1000px){.smart{grid-template-columns:1fr 1fr}}
+
+/* ---------- INDICATOR CARD (E2/E3) ---------- */
+.ind{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;margin-bottom:22px;scroll-margin-top:120px}
+.ind-h{display:flex;gap:14px;align-items:flex-start;margin-bottom:6px}
+.badge{background:var(--navy);color:#fff;font-family:"Space Grotesk";font-weight:700;border-radius:10px;padding:8px 10px;font-size:15px;flex:none}
+.ind-h h3{font-size:22px}
+.ind-h p{margin:4px 0 0;color:var(--muted);font-size:14.5px}
+.why{color:var(--muted);font-size:14.5px;margin:4px 0 16px 58px}
+.why b{color:var(--ink)}
+.ind-body{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:24px}
+@media(max-width:950px){.ind-body{grid-template-columns:1fr}.why{margin-left:0}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;margin-bottom:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.notas h4{font-size:15px;margin-bottom:10px}
+.nota{border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:opacity .2s}
+.nota .c{font-weight:600;display:flex;align-items:center;gap:8px}
+.nota .c i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.nota .v{font-size:12.5px;color:var(--muted);font-weight:400;display:block}
+.score{display:flex;align-items:center;gap:6px;font-weight:600;font-size:13px;border-radius:8px;padding:4px 9px;white-space:nowrap}
+.score b{font-family:"Space Grotesk";font-size:15px}
+.s1{background:#fde8e6;color:var(--r1)}.s2{background:#fdeee4;color:var(--r2)}.s3{background:#fbf3d9;color:var(--r3)}.s4{background:#e3f3ea;color:var(--r4)}.s5{background:#d7efe2;color:var(--r5)}.s0{background:#eceef3;color:#69708a}
+.nota.ref{background:#fafafa;border-style:dashed}
+.dim{opacity:.32}
+.analysis{background:#f6f7fb;border-left:4px solid var(--orange);border-radius:0 12px 12px 0;padding:14px 18px;margin-top:18px;font-size:15px}
+.analysis b.t{display:block;margin-bottom:4px}
+.par4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:900px){.par4{grid-template-columns:1fr 1fr}}
+.pc{border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13.5px;background:#fcfcfd;transition:opacity .2s}
+.pc b.t{display:block;margin-bottom:4px}
+.pc.pe{border-top:4px solid var(--pe)}.pc.pa{border-top:4px solid var(--pa)}.pc.cr{border-top:4px solid var(--cr)}.pc.co{border-top:4px solid var(--co)}
+.env-title{display:flex;align-items:baseline;gap:12px;margin:8px 0 4px}
+.env-title .k{font-family:"Space Grotesk";font-size:46px;font-weight:700;color:var(--orange);line-height:1}
+.q{font-style:italic;color:var(--muted);margin:0 0 22px}
+
+/* ranking cards */
+.rank{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1000px){.rank{grid-template-columns:1fr 1fr}}
+.rk{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;border-top:5px solid var(--line);transition:opacity .2s}
+.rk .pos{font-size:13px;color:var(--muted);font-weight:700}
+.rk h3{font-size:24px;margin:2px 0 10px}
+.rk .val{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.rk svg{flex:none}
+.rk .val b{font-family:"Space Grotesk";font-size:38px}
+.bar{display:grid;grid-template-columns:1fr 70px 30px;align-items:center;gap:8px;font-size:12.5px;margin:4px 0}
+.bar .tr{height:6px;background:#eceef3;border-radius:6px;overflow:hidden}.bar .tr i{display:block;height:100%}
+
+footer{border-top:1px solid var(--line);padding:22px 36px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media(max-width:900px){
+  aside{transform:translateX(-100%)} aside.open{transform:none}
+  .side-close{display:block} .menu-btn{display:block}
+  main{margin-left:0} .topbar{padding-left:140px} .topbar .tag{display:none}
+  .wrap,.hero{padding-left:20px;padding-right:20px}
+  .filterbar{top:51px}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#app">Ir al contenido</a>
+<button class="menu-btn" id="menuBtn" aria-label="Abrir menú de entregas">☰ Entregas</button>
+
+<aside id="side" aria-label="Menú de entregas">
+  <div class="side-top"><div><b>Aldea Global 2</b><small>Triángulo Creativo</small></div><button class="side-close" id="sideClose" aria-label="Cerrar menú">✕</button></div>
+  <nav class="side-nav">
+    <a href="#inicio" data-r="inicio">Vista general</a>
+    <div class="lbl">ENTREGAS DEL PROYECTO</div>
+    <a href="#entrega-1" data-r="entrega-1"><span class="num">1</span>Entrega 1 · A2</a>
+    <a href="#entrega-2" data-r="entrega-2"><span class="num">2</span>Entrega 2 · A3</a>
+    <a href="#entrega-3" data-r="entrega-3"><span class="num">3</span>Entrega 3 · A5</a>
+  </nav>
+  <div class="side-foot"><b>Proyecto académico</b>Sitio académico del equipo. No es el sitio oficial de Triángulo Creativo.</div>
+</aside>
+
+<main id="app">
+  <div class="topbar">
+    <div class="brand"><svg class="tri" viewBox="0 0 34 30"><path d="M17 3 L31 27 H3 Z" fill="none" stroke="#5b7cf0" stroke-width="4" stroke-linejoin="round"/></svg><span>triángulo<small>creativo.</small></span></div>
+    <div class="tag">Proyecto académico · Aldea Global 2 · ESIC</div>
+  </div>
+
+  <!-- ===================== VISTA GENERAL ===================== -->
+  <section class="view" id="v-inicio">
+    <div class="hero"><div class="ring"></div>
+      <div class="eyebrow">Proyecto de internacionalización</div>
+      <h1>Un proyecto,<br>entrega por <em>entrega.</em></h1>
+      <p>Conoce el estudio de Triángulo Creativo Agencia S.A.S., la consultora de Medellín que integra marketing, estrategia comercial, tecnología y datos para el sector inmobiliario: desde el diagnóstico de la empresa hasta el análisis de entornos de Perú, Panamá y Costa Rica. Cada entrega tiene su propio espacio y sus fuentes.</p>
+      <a class="btn" href="#entrega-1">Comenzar por la Entrega 1</a><a class="btn ghost" href="#entrega-3">Ir a la entrega más reciente</a>
+      <div class="stats">
+        <div><b>2024</b><span>año de fundación</span></div>
+        <div><b>13</b><span>integrantes fijos · 25 en total</span></div>
+        <div><b>+25</b><span>clientes atendidos (20 activos)</span></div>
+        <div><b>+50</b><span>proyectos inmobiliarios</span></div>
+        <div><b>3</b><span>mercados candidatos</span></div>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="sec-head"><div class="k">Recorrido del proyecto</div><h2>Todas las entregas</h2>
+      <p>Usa el menú lateral para cambiar de entrega en cualquier momento.</p></div>
+      <div class="ecards">
+        <div class="ecard"><div class="top"><span>ENTREGA 1 · A2</span><span class="pill">Entregada</span></div><h3>Realidad empresarial y potencial de internacionalización</h3><p>Acuerdo de equipo, descripción de la empresa y su reto, Business Model Canvas, diagnóstico P-I, DOFA, sostenibilidad, viabilidad (selección de Perú) y objetivo SMART.</p><a href="#entrega-1">Explorar la entrega</a></div>
+        <div class="ecard"><div class="top"><span>ENTREGA 2 · A3</span><span class="pill">Entregada</span></div><h3>Entorno macroeconómico de los mercados candidatos</h3><p>Panamá, Perú y Costa Rica comparados con cinco indicadores macroeconómicos, 2021–2025: actividad, demanda, inflación, tasas y sostenibilidad fiscal, con nota de 1 a 5.</p><a href="#entrega-2">Explorar la entrega</a></div>
+        <div class="ecard"><div class="top"><span>ENTREGA 3 · A5</span><span class="pill o">Nueva</span></div><h3>Análisis de cinco entornos</h3><p>Cultural, político y legal, tecnológico y geoambiental, comercio internacional e inversión extranjera directa, con Colombia como referencia y 16 indicadores calificados.</p><a href="#entrega-3">Explorar la entrega</a></div>
+      </div>
+      <div class="card" style="margin-top:26px"><b>Sobre las fuentes.</b> <span class="muted">Las cifras y textos provienen de las entregas presentadas por el equipo y de fuentes públicas citadas en cada sección.</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== ENTREGA 1 ===================== -->
+  <section class="view" id="v-entrega-1">
+    <div class="hero"><div class="ring"></div>
+      <div class="eyebrow">Entrega 1 · Actividad 2 · Triángulo Creativo</div>
+      <h1>Una consultora lista<br>para <em>exportar servicios.</em></h1>
+      <p>Acuerdo de equipo y estudio de la realidad empresarial: quiénes somos como equipo, qué hace la empresa, qué tan preparada está para salir al exterior y por qué priorizamos Perú (Lima).</p>
+    </div>
+    <nav class="subnav" data-for="e1"></nav>
+    <div class="wrap" id="e1"></div>
+  </section>
+
+  <!-- ===================== ENTREGA 2 ===================== -->
+  <section class="view" id="v-entrega-2">
+    <div class="hero"><div class="ring"></div>
+      <div class="hero-grid">
+        <div><div class="eyebrow">Entrega 2 · Actividad 3 · Entorno macroeconómico</div>
+        <h1>Cinco indicadores.<br>Tres mercados.<br><em>Ninguno gana en todo.</em></h1>
+        <p>Panamá, Perú y Costa Rica comparados con datos de 2021 a 2025: crecimiento, demanda interna, inflación, tasas de referencia y finanzas públicas.</p></div>
+        <div class="hero-card"><div class="chart" style="height:300px"><canvas id="e2radar"></canvas></div></div>
+      </div>
+    </div>
+    <nav class="subnav" data-for="e2"></nav>
+    <div class="filterbar" data-for="e2"></div>
+    <div class="wrap" id="e2"></div>
+  </section>
+
+  <!-- ===================== ENTREGA 3 ===================== -->
+  <section class="view" id="v-entrega-3">
+    <div class="hero"><div class="ring"></div>
+      <div class="hero-grid">
+        <div><div class="eyebrow">Entrega 3 · Actividad 5 · Análisis de entornos</div>
+        <h1>Cinco entornos.<br>Tres países.<br><em>Un solo mapa.</em></h1>
+        <p>Perú, Panamá y Costa Rica, con Colombia como referencia, evaluados en 16 indicadores. Cada uno tiene gráfico o tabla propia, fuente, análisis de máximo 150 palabras y nota de 1 (desfavorable) a 5 (favorable) para la internacionalización de la consultora.</p></div>
+        <div class="hero-card"><div class="chart" style="height:300px"><canvas id="e3radar"></canvas></div></div>
+      </div>
+    </div>
+    <nav class="subnav" data-for="e3"></nav>
+    <div class="filterbar" data-for="e3"></div>
+    <div class="wrap" id="e3"></div>
+  </section>
+
+  <footer><span>△ Triángulo Creativo · Medellín, Colombia</span><span>Estudio académico · Aldea Global 2 · ESIC · 2026</span></footer>
+</main>
+
+<script>
+/* =========================================================
+   DATOS Y UTILIDADES
+   ========================================================= */
+const COL={pe:'#d1453b',pa:'#1f8a70',cr:'#2f55e4',co:'#c99a1e'};
+const NAME={pe:'Perú',pa:'Panamá',cr:'Costa Rica',co:'Colombia'};
+const LBL=['','Muy desfavorable','Desfavorable','Intermedia','Favorable','Muy favorable'];
+const $=s=>document.querySelector(s);
+const esc=s=>s;
+const fmt=(v,d=1)=>v==null?'s. d.':Number(v).toLocaleString('es-CO',{minimumFractionDigits:d,maximumFractionDigits:d});
+const charts={e2:[],e3:[]};
+const highlight={e2:'all',e3:'all'};
+if(window.Chart){Chart.defaults.font.family='Inter, system-ui, sans-serif';Chart.defaults.font.size=12;Chart.defaults.color='#4b5368';}
+
+function score(n){return n==null?'<span class="score s0">—&nbsp;No aplica</span>':`<span class="score s${n}"><b>${n}</b>${LBL[n]}</span>`}
+function legend(keys){return '<div class="legend">'+keys.map(k=>`<span><i style="background:${COL[k]}"></i>${NAME[k]}${k==='co'?' (referencia)':''}</span>`).join('')+'</div>'}
+function notas(scope,arr,title='Nota de 1 a 5'){ // arr: [{k,v,s}]
+  return `<div class="notas"><h4>${title}</h4>`+arr.map(o=>`<div class="nota ${o.k==='co'?'ref':''}" data-k="${o.k}"><div class="c"><i style="background:${COL[o.k]}"></i><div>${NAME[o.k]}${o.k==='co'?' <span class="muted" style="font-weight:400">(referencia)</span>':''}<span class="v">${o.v||''}</span></div></div>${score(o.s)}</div>`).join('')+'</div>';
+}
+function tableHTML(head,rows){return '<div class="tbl"><table><tr>'+head.map((h,i)=>`<th class="${i?'n':''}">${h}</th>`).join('')+'</tr>'+rows.map(r=>'<tr>'+r.map((c,i)=>`<td class="${i?'n':''}">${c}</td>`).join('')+'</tr>').join('')+'</table></div>'}
+
+/* Gráfico genérico con soporte de resaltado por país */
+function mkChart(scope,id,cfg){
+  if(!window.Chart) return;
+  const el=document.getElementById(id); if(!el) return;
+  const c=new Chart(el,cfg); c._scope=scope; charts[scope].push(c); applyHL(scope);
+}
+function ds(keys,data,type){return keys.map((k,i)=>({label:NAME[k],_k:k,data:data[i],borderColor:COL[k],backgroundColor:COL[k],borderWidth:2.5,pointRadius:3,tension:.25,spanGaps:true,borderDash:k==='co'?[6,4]:[]}))}
+function lineCfg(labels,keys,data,y={}){return {type:'line',data:{labels,datasets:ds(keys,data)},options:{maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false}},scales:{y}}}}
+function barCfg(labels,keys,data,y={},horizontal=false){return {type:'bar',data:{labels,datasets:ds(keys,data)},options:{indexAxis:horizontal?'y':'x',maintainAspectRatio:false,plugins:{legend:{display:false}},scales:horizontal?{x:y}:{y}}}}
+function hex(c,a){const n=parseInt(c.slice(1),16);return `rgba(${n>>16},${(n>>8)&255},${n&255},${a})`}
+function applyHL(scope){
+  const h=highlight[scope];
+  charts[scope].forEach(c=>{c.data.datasets.forEach(d=>{const on=h==='all'||d._k===h||d._k==='co';const base=COL[d._k]||'#999';
+    d.borderColor=hex(base,on?1:.18);d.pointBackgroundColor=hex(base,on?1:.18);d.pointBorderColor=hex(base,on?1:.18);d.backgroundColor=hex(base,on?(c.config.type==='radar'?.12:1):.15);d.borderWidth=(h!=='all'&&d._k===h)?4:2.5;});c.update('none');});
+  document.querySelectorAll(`#${scope} [data-k], #v-${scope==='e2'?'entrega-2':'entrega-3'} .rk[data-k]`).forEach(el=>{const k=el.dataset.k;el.classList.toggle('dim',h!=='all'&&k!==h&&k!=='co');});
+}
+function buildFilter(scope,keys){
+  const bar=document.querySelector(`.filterbar[data-for="${scope}"]`);
+  bar.innerHTML='<span>Resaltar</span>'+keys.map(k=>`<button data-h="${k}"><i style="background:${COL[k]}"></i>${NAME[k]}</button>`).join('')+'<button data-h="all" class="on">Todos</button>';
+  bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{highlight[scope]=b.dataset.h;bar.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));applyHL(scope);});
+}
+function buildSubnav(scope,items){
+  const nav=document.querySelector(`.subnav[data-for="${scope}"]`);
+  nav.innerHTML=items.map(([id,t])=>`<button data-t="${scope}-${id}">${t}</button>`).join('');
+  nav.querySelectorAll('button').forEach(b=>b.onclick=()=>{document.getElementById(b.dataset.t).scrollIntoView({behavior:'smooth',block:'start'});});
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){nav.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.t===e.target.id));}})},{rootMargin:'-30% 0px -60% 0px'});
+  items.forEach(([id])=>{const el=document.getElementById(`${scope}-${id}`);if(el)obs.observe(el);});
+}
+
+/* =========================================================
+   ENTREGA 1 · A2
+   ========================================================= */
+function renderE1(){
+  const S=[];
+  S.push(`<div class="sec" id="e1-acuerdo"><div class="sec-head"><div class="k">1 · Acuerdo de equipo</div><h2>Cómo trabajamos</h2><p>Este acuerdo regula cómo trabajará el equipo desde la entrega A2 hasta el cierre del trabajo, el 11 de diciembre de 2026.</p></div>
+  <div class="grid2"><div class="card"><h3 style="font-size:19px;margin-bottom:10px">Integrantes y roles</h3>${tableHTML(['Integrante','Rol'],[
+   ['Marco Antonio Gómez','Coordinación, formato y control de calidad: consolida, revisa referencias y sube a la plataforma'],
+   ['Tomás Durango','Investigación de mercados (Paso 7)'],
+   ['Jerónimo Zapata','Diagnóstico, DOFA y sostenibilidad (Pasos 4 a 6)'],
+   ['Alejandro José Espinosa','Descripción, Canvas y objetivo SMART (Pasos 2, 3 y 8)']]).replace(/class="n"/g,'')}</div>
+   <div class="card"><h3 style="font-size:19px;margin-bottom:10px">Canales de comunicación</h3>${tableHTML(['Canal','Uso','Respuesta'],[
+   ['WhatsApp','Avisos y coordinación rápida','24 h'],['Google Drive','Versión oficial de documentos, actas y fuentes','—'],['Reunión semanal','Videollamada o presencial','Obligatoria'],['Correo institucional','Docente y empresa','48 h']]).replace(/class="n"/g,'')}</div></div>
+  <div class="card"><h3 style="font-size:19px">Compromisos de convivencia</h3><div class="list-num">
+   ${[['Entregas a tiempo','Cada integrante sube su parte a la carpeta compartida a más tardar 48 horas antes de cada fecha de entrega.'],
+      ['Todo se avisa antes','Todos asisten a la reunión semanal; quien no pueda avisa antes y entrega su avance por escrito ese mismo día.'],
+      ['Sustento en cada cifra','Toda cifra lleva fuente y año; solo se publica información verificada.'],
+      ['Respuesta en 24 horas','Los mensajes del equipo se responden en máximo 24 horas.'],
+      ['Revisión final','El coordinador revisa el documento completo (formato, referencias y nombres de archivos) 24 horas antes de subirlo.'],
+      ['Actas','Después de cada reunión se deja un acta breve con decisiones y responsables.'],
+      ['Respeto','Se critica el trabajo, no a las personas, y todas las opiniones se escuchan antes de decidir.'],
+      ['Decisiones','Por consenso; si no lo hay, por mayoría, con constancia en el acta.']].map((x,i)=>`<div><b class="n">${String(i+1).padStart(2,'0')}</b><div><h4>${x[0]}</h4><span class="muted">${x[1]}</span></div></div>`).join('')}</div></div>
+  <div><div class="card"><h3 style="font-size:19px;margin-bottom:10px">Consecuencias por incumplimiento</h3>${tableHTML(['Nivel','Consecuencia'],[
+   ['1.er incumplimiento','Recordatorio escrito en el canal y compromiso de entrega en máximo 24 horas, registrado en el acta.'],
+   ['2.º incumplimiento','Conversación con el coordinador y reasignación; quien incumplió asume una tarea adicional en la siguiente entrega.'],
+   ['3.er incumplimiento','Aviso a la docente con la evidencia para que valore el aporte individual.']]).replace(/class="n"/g,'')}<p class="muted" style="font-size:13.5px">Un imprevisto avisado a tiempo y justificado no cuenta como incumplimiento. Conflictos: conversación directa (48 h) → mediación del coordinador → reunión de equipo con acta → aviso a la docente.</p></div>
+   </div></div>`);
+
+  S.push(`<div class="sec" id="e1-empresa"><div class="sec-head"><div class="k">2 · La empresa y el reto</div><h2>Triángulo Creativo Agencia S.A.S.</h2><p>Consultora estratégica de Medellín, fundada en 2024 y especializada en el sector inmobiliario B2B. Nació por la confianza de clientes que quisieron seguir trabajando con su equipo fundador tras el cierre en Colombia de la agencia donde se originó la relación.</p></div>
+  <div class="grid3">
+   <div class="card"><span class="pill">Servicio</span><p>Integra marketing, estrategia comercial, tecnología, data science y neuroestrategia para mejorar posicionamiento, procesos comerciales, conversión y fidelización.</p></div>
+   <div class="card"><span class="pill">Propuesta de valor</span><p>Ecosistemas comerciales que conectan marketing, ventas, tecnología y datos, desde la atracción hasta la conversión y la fidelización, con especialización inmobiliaria y neuroestrategia.</p></div>
+   <div class="card"><span class="pill o">Reto</span><p>Internacionalizar sus servicios hacia mercados hispanohablantes con venta consultiva remota desde Colombia, alianzas locales y viajes puntuales. Relanzamiento de marca previsto para enero de 2027.</p></div></div>
+  <div class="card"><h3 style="font-size:19px;margin-bottom:12px">Cuatro líneas internacionalizables</h3><div class="grid4">
+   ${['Consultoría estratégica inmobiliaria','CRM inmobiliario','Dashboards e inteligencia','Formación comercial'].map((x,i)=>`<div class="pc co" style="border-top-color:var(--blue)"><b class="t">0${i+1}</b>${x}</div>`).join('')}</div>
+   <p class="src">La empresa manifestó interés en Panamá, Perú y Costa Rica; el equipo priorizó Perú (Lima) tras comparar los tres mercados. Es una recomendación académica del equipo. Clasificación: servicios de consultoría, marketing y tecnología (no aplica subpartida arancelaria). Fuente: Triángulo Creativo (2026), socialización del reto, 22 de octubre de 2026.</p></div></div>`);
+
+  const cv=(cls,t,hoy,pe)=>`<div class="${cls}"><h4>${t}</h4>${hoy}</div>`;
+  S.push(`<div class="sec" id="e1-canvas"><div class="sec-head"><div class="k">3 · Modelo de negocio</div><h2>Business Model Canvas</h2><p>Lado derecho: el mercado. Lado izquierdo: la operación. Centro: la propuesta de valor.</p></div>
+  <div class="canvas">
+   ${cv('sk','8. Socios clave','Colaboradores freelance.','asesor jurídico peruano y socio comercial especializado en Lima; alianzas con actores locales.')}
+   ${cv('ak','7. Actividades clave','Branding, publicidad, contenidos, estrategia inmobiliaria, CRM, mentoría, KPIs, dashboards, automatizaciones, integraciones, investigación y formación comercial.')}
+   ${cv('rc','6. Recursos clave','13 integrantes fijos; 25 personas con externos; experiencia acumulada de más de 400 proyectos; capacidades de marketing, comercial, data science y neuroestrategia.')}
+   ${cv('vp','2. Propuesta de valor','Ecosistemas comerciales que conectan marketing, ventas, tecnología y datos, desde la atracción hasta la conversión y la fidelización; especialización inmobiliaria y neuroestrategia.','apoyar la propuesta en datos del mercado limeño (23.626 viviendas nuevas vendidas entre enero y septiembre de 2026, CODIP).')}
+   ${cv('cr','4. Relaciones con clientes','Acompañamiento estratégico, CRM, mentoría, capacitación y reactivación comercial.','reportes mensuales y acuerdos de nivel de servicio.')}
+   ${cv('ch','3. Canales','Venta consultiva remota desde Colombia, alianzas locales y viajes puntuales; relanzamiento web y redes en enero de 2027.','LinkedIn y referidos B2B.')}
+   ${cv('cs','1. Segmentos de clientes','Empresas del sector inmobiliario B2B; más de 25 clientes atendidos y 20 activos.','constructoras y promotoras medianas en Lima.')}
+   ${cv('co','9. Estructura de costos','Equipo de trabajo y proceso de reestructuración de marca.','honorarios externos, software, viajes, promoción B2B, asesoría legal y comisiones de socios.')}
+   ${cv('ri','5. Fuentes de ingresos','Servicios de consultoría y acompañamiento.','')}
+  </div>
+  <div class="analysis"><b class="t">Qué cambia al entrar a Perú</b>Cambian sobre todo los bloques 3 (canales) y 8 (socios clave): la consultora necesitaría un aliado local y, si constituye sociedad, un representante en Perú, como exige la ley peruana. El bloque 2 debe apoyarse en datos del mercado de Lima, como las 23.626 viviendas nuevas vendidas entre enero y septiembre de 2026 (CODIP). Los bloques 6 y 7 se mantienen porque el servicio se presta de forma remota.</div></div>`);
+
+  S.push(`<div class="sec" id="e1-diagnostico"><div class="sec-head"><div class="k">4 · Diagnóstico P-I</div><h2>Qué tan preparada está para salir</h2><p>El Diagnóstico P-I mide de 0 a 1 la preparación para internacionalizarse.</p></div>
+  <div class="grid2"><div class="card"><div style="display:flex;align-items:baseline;gap:12px;margin-bottom:8px"><span class="big">0,24</span><span class="muted">puntaje total sobre 1</span></div><div class="chart"><canvas id="e1diag"></canvas></div></div>
+   <div class="card">${tableHTML(['Dimensión','Puntaje (0–1)','Peso'],[['Producto/Servicio','0,52','0,20'],['Direccionamiento estratégico','0,50','0,075'],['Tecnología e innovación','0,42','0,15'],['Modos de entrada','0,12','0,30'],['Talento humano','0,02','0,125'],['Sostenibilidad','0,01','0,15'],['<b>Total</b>','<b>0,24</b>','1,00']])}
+   <p class="src">Total = Σ puntaje × peso = 0,1040 + 0,0375 + 0,0630 + 0,0360 + 0,0025 + 0,0015 = 0,2445. Fuente: Diagnóstico P-I de Triángulo Creativo (2026), hoja «Resultados».</p></div></div>
+  <div class="analysis"><b class="t">Lectura del resultado</b>Las mayores fortalezas son Producto/Servicio (0,52), por su método propio y servicios consultivos fáciles de adaptar, y Direccionamiento estratégico (0,50). Las mayores debilidades son Sostenibilidad (0,01) y Talento humano (0,02). En modos de entrada, la exportación de servicios (0,63) es lo más avanzado. La empresa tiene un servicio listo para exportar, pero aún no el equipo ni los procesos para operar afuera: le conviene entrar de forma remota y con un aliado local.</div></div>`);
+
+  S.push(`<div class="sec" id="e1-dofa"><div class="sec-head"><div class="k">5 · Análisis DOFA</div><h2>Fortalezas, debilidades, oportunidades y amenazas</h2><p>Construida con el diagnóstico y el mercado priorizado, Perú (Lima). Panamá se conserva como mercado alternativo.</p></div>
+  <div class="dofa">
+   <div class="F"><h4>Fortalezas (internas)</h4><ul><li>Producto/Servicio 0,52: método propio, especialización inmobiliaria B2B y servicios adaptables.</li><li>Direccionamiento estratégico 0,50: estructura y plan definidos.</li><li>Exportación de servicios 0,63; venta consultiva remota.</li><li>Integración de marketing, ventas, tecnología, datos y neuroestrategia, con cuatro líneas internacionalizables.</li><li>13 integrantes fijos, 25 en total; más de 25 clientes y más de 50 proyectos.</li></ul></div>
+   <div class="D"><h4>Debilidades (internas)</h4><ul><li>Talento humano 0,02 y Sostenibilidad 0,01: los menores puntajes del diagnóstico.</li><li>Modos de entrada 0,12: sin operación propia en el exterior.</li><li>El plan estratégico aún no tiene alcance internacional.</li><li>Relanzamiento de marca hasta enero de 2027.</li></ul></div>
+   <div class="O"><h4>Oportunidades (externas, Perú)</h4><ul><li>23.626 viviendas nuevas vendidas en Lima y Callao entre enero y septiembre de 2026, +26 % (CODIP).</li><li>Más del 80 % de las ventas del primer semestre de 2026 en planos o construcción: ciclos largos que requieren CRM y analítica.</li><li>Construcción +10 % en 2026 (BCRP) y PIB 3,0 % (FMI).</li><li>Mismo idioma; Comunidad Andina (Decisión 439), Alianza del Pacífico y acuerdo con la UE.</li><li>Sociedad con 100 % de capital extranjero: S/ 550 a 2.000 y 20 a 30 días.</li></ul></div>
+   <div class="A"><h4>Amenazas (externas, Perú)</h4><ul><li>Competencia local: Comunica, Darma, Hazlo Simple, Direkta y Real Target; Darma cubre tres de las cuatro líneas.</li><li>Normativa por verificar: datos personales (Ley 29733) y tributación de servicios desde el exterior.</li><li>Antecedente de reclamo ante la CAN por trato nacional a proveedores colombianos de servicios.</li><li>Capeco advierte limitaciones de suelo y financiamiento para vivienda social.</li><li>Transición de gobierno en 2026.</li></ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3 style="font-size:19px;margin-bottom:10px">Estrategias propuestas (equipo)</h3>${tableHTML(['Tipo','Estrategia'],[
+   ['FO','Ofrecer un diagnóstico piloto de conversión comercial a promotoras medianas de Lima, de forma remota.'],
+   ['FA','Diferenciarse con la integración de marketing, ventas, tecnología y datos con neuroestrategia.'],
+   ['DO','Cerrar brechas con un aliado comercial local, un responsable de internacionalización y un plan con alcance internacional.'],
+   ['DA','Verificar impuestos, datos personales y contratación con asesoría local antes de asumir costos fijos.']]).replace(/class="n"/g,'')}</div></div>`);
+
+  S.push(`<div class="sec" id="e1-sostenibilidad"><div class="sec-head"><div class="k">6 · Sostenibilidad</div><h2>Situación y propuestas</h2><p>Las tres dimensiones se relacionan con los bloques del Canvas y con el mercado priorizado.</p></div>
+  <div class="grid3">
+   <div class="card"><span class="pill">Social</span><h3 style="font-size:18px;margin:10px 0 6px">Equipo y relaciones de confianza</h3><p class="muted">No hay políticas formales acreditadas de equidad o bienestar. <b>Propuesta:</b> capacitación anual, contratación responsable y seguimiento del bienestar; extender criterios a aliados en Perú.</p></div>
+   <div class="card"><span class="pill">Ambiental</span><h3 style="font-size:18px;margin:10px 0 6px">Modelo ligero y remoto</h3><p class="muted">Sin medición verificable de huella de carbono. <b>Propuesta:</b> medir energía, desplazamientos y materiales con una metodología reconocida; priorizar lo digital.</p></div>
+   <div class="card"><span class="pill">Económica</span><h3 style="font-size:18px;margin:10px 0 6px">Actividad sin datos de rentabilidad</h3><p class="muted">Más de 25 clientes y 50 proyectos, pero sin datos de solvencia. <b>Propuesta:</b> presupuesto de entrada a Perú, margen por contrato, flujo de caja y riesgo cambiario.</p></div></div>
+  <div class="card"><b>ODS relacionados:</b> <span class="muted">ODS 9 (CRM, automatización y analítica), ODS 8 (formación y empleo de calidad) y ODS 11 (criterios sostenibles en proyectos inmobiliarios). No implican adhesión institucional ni resultados certificados.</span></div></div>`);
+
+  S.push(`<div class="sec" id="e1-viabilidad"><div class="sec-head"><div class="k">7 · Viabilidad</div><h2>Por qué Perú</h2><p>Matriz de selección con cinco criterios ponderados. Los puntajes de 1 a 5 son valoraciones académicas del equipo respaldadas con datos.</p></div>
+  <div class="grid2"><div class="card">${tableHTML(['Criterio (peso)','Perú','Panamá','Costa Rica'],[
+   ['Tamaño y crecimiento (25 %)','4','4','3'],['Estabilidad económica (20 %)','4','4','4'],['Afinidad cultural e idioma (15 %)','4','5','4'],['Acceso preferencial (20 %)','5','2','4'],['Facilidad legal y entrada (20 %)','4','5','4'],['<b>Puntaje ponderado</b>','<b>4,20</b>','<b>3,95</b>','<b>3,75</b>'],['Posición','1.º','2.º','3.º']])}
+   <p class="src">El criterio «Acceso preferencial» de Panamá pasó de 4 a 2: según MinComercio solo el AAP N.° 29 está vigente (mercancías). Con 3, Panamá obtendría 4,15, aún por debajo de Perú.</p></div>
+   <div class="card"><div class="chart"><canvas id="e1matriz"></canvas></div></div></div>
+  <div class="card"><h3 style="font-size:19px;margin-bottom:10px">Indicadores económicos comparativos</h3>${tableHTML(['Indicador','Perú','Panamá','Costa Rica'],[
+   ['PIB nominal 2025 (US$ M)','334.854','90.462','102.904'],['PIB per cápita 2025 (US$)','9.684','19.789','19.970'],['Crecimiento PIB real 2025','3,4 %','4,4 %','4,6 %'],['Proyección PIB 2026 (FMI)','3,0 %','5,0 %','3,3 %'],['IPC 2025','1,5 %','−0,2 %','−0,1 %'],['Tasa de referencia 2026','4,25 %','No aplica','3,00 %'],['Balance fiscal 2025 (% PIB)','−2,2 %','−3,67 %','−3,4 %']])}</div>
+  <div class="grid2"><div class="card"><h3 style="font-size:19px;margin-bottom:10px">Sector inmobiliario de Lima</h3>${tableHTML(['Indicador','Dato'],[
+   ['Vivienda nueva vendida, ene–sep 2026','23.626 (+26 %)'],['Venta de los últimos 4 trimestres','32.222 (+30 %)'],['Oferta promedio disponible','58.315 (+10 %)'],['Absorción mensual','4,5 %'],['Precio promedio por vivienda','S/ 440.565'],['Departamentos de 40 a 60 m²','49,4 % de lo vendido'],['Ventas en planos o construcción','Más del 80 %']])}<p class="src">Fuentes: CODIP vía Gestión, Forbes Perú y La República; Capeco vía El Comercio; Infobae (2026).</p></div>
+   <div class="card"><div class="chart"><canvas id="e1lima"></canvas></div><p class="src">Viviendas nuevas vendidas en Lima y Callao, enero a septiembre. Fuente: CODIP (2026).</p></div></div>
+  <div class="card"><h3 style="font-size:19px;margin-bottom:10px">Competidores en Lima</h3>${tableHTML(['Empresa','Qué ofrece (según su sitio)','Relación con Triángulo Creativo'],[
+   ['Comunica','Marketing inmobiliario; desde 2013, más de 100 proyectos','Compite en marketing de proyecto y pauta'],
+   ['Darma','Publicidad, consultoría, CRM propio, Power BI; más de 180 inmobiliarias','Mayor traslape: tres de las cuatro líneas'],
+   ['Hazlo Simple','Gerencia de marketing y ventas, CRM y capacitación','Mismo segmento inicial'],
+   ['Direkta','Ventas y marketing con fuerza de ventas propia','Modelo distinto: equipo tercerizado'],
+   ['Real Target','Gerenciamiento comercial, marketing e inteligencia de datos','Compite en marketing y datos']]).replace(/class="n"/g,'')}<p class="src">Datos autodeclarados en los sitios web (revisados el 1 de noviembre de 2026); no representan cuotas de mercado.</p></div></div>`);
+
+  S.push(`<div class="sec" id="e1-smart"><div class="sec-head"><div class="k">8 · Objetivo SMART</div><h2>Tres contratos en Lima antes de 2028</h2><p>Objetivo propuesto por el equipo: firmar tres contratos de consultoría estratégica inmobiliaria, implementación de CRM o inteligencia de datos con empresas inmobiliarias de Lima, con prestación remota desde Colombia y apoyo de un aliado local, antes del 31 de diciembre de 2027.</p></div>
+  <div class="smart">
+   ${[['S','Específico','Servicios B2B para inmobiliarias de Lima, por exportación remota y alianza local, sin filial.'],['M','Medible','Tres contratos firmados; apoyo: propuestas presentadas y valor de contratos.'],['A','Alcanzable','Ya presta estos servicios (0,52; exportación 0,63) y Lima vendió 23.626 viviendas (+26 %).'],['R','Retador','Diagnóstico 0,24, sin operación en Perú y con competidores como Darma.'],['R','Realista','Doce meses desde el relanzamiento (ene-2027), remoto y con aliado.'],['T','Temporal','Fecha límite: 31 de diciembre de 2027, con hitos legales y comerciales.']].map(x=>`<div><b>${x[0]}</b><strong>${x[1]}</strong><br><span class="muted">${x[2]}</span></div>`).join('')}
+  </div></div>`);
+
+  $('#e1').innerHTML=S.join('');
+  buildSubnav('e1',[['acuerdo','Acuerdo de equipo'],['empresa','La empresa'],['canvas','Modelo de negocio'],['diagnostico','Diagnóstico'],['dofa','DOFA'],['sostenibilidad','Sostenibilidad'],['viabilidad','Viabilidad'],['smart','Objetivo SMART']]);
+  if(window.Chart){
+    new Chart($('#e1diag'),{type:'bar',data:{labels:['Producto/Servicio','Direcc. estratégico','Tecnología e innov.','Modos de entrada','Talento humano','Sostenibilidad'],datasets:[{data:[.52,.50,.42,.12,.02,.01],backgroundColor:[.52,.50,.42,.12,.02,.01].map(v=>v<.24?'#d1453b':'#2f55e4')}]},options:{indexAxis:'y',maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{min:0,max:1}}}});
+    new Chart($('#e1matriz'),{type:'bar',data:{labels:['Perú','Panamá','Costa Rica'],datasets:[{data:[4.2,3.95,3.75],backgroundColor:[COL.pe,COL.pa,COL.cr]}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false},title:{display:true,text:'Puntaje ponderado (máx. 5)'}},scales:{y:{min:0,max:5}}}});
+    new Chart($('#e1lima'),{type:'bar',data:{labels:['Ene–sep 2025','Ene–sep 2026'],datasets:[{data:[18679,23626],backgroundColor:['#9aa8d8','#f26b3a']}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}}}});
+  }
+}
+
+/* =========================================================
+   ENTREGA 2 · A3
+   ========================================================= */
+const Y5=['2021','2022','2023','2024','2025'];
+const K3=['pa','pe','cr'];
+function renderE2(){
+  const I=[];
+  const ind=(id,num,title,mide,why,body,notes,an,src)=>`<div class="ind" id="e2-${id}"><div class="ind-h"><span class="badge">${num}</span><div><h3>${title}</h3><p>${mide}</p></div></div><p class="why"><b>Por qué importa:</b> ${why}</p><div class="ind-body"><div>${body}</div>${notas('e2',notes)}</div><div class="analysis"><b class="t">Análisis</b>${an}</div><p class="src"><b>Fuente:</b> ${src}</p></div>`;
+  I.push(`<div class="sec" id="e2-proposito"><div class="sec-head"><div class="k">Propósito y alcance</div><h2>Dinamismo frente a estabilidad</h2><p>Comparar Panamá, Perú y Costa Rica para identificar cuál presenta mayor dinamismo económico y cuál ofrece mayor estabilidad macroeconómica para internacionalizar los servicios de Triángulo Creativo. Cada indicador tiene datos 2021–2025, tabla o gráfico propio, fuente, análisis y nota de 1 a 5. Las proyecciones 2026–2027 son un complemento separado.</p></div>
+   <div class="rank" id="e2rank"></div></div>`);
+  I.push(ind('pib','1','Actividad económica: PIB real y PIB per cápita','Crecimiento real del PIB (%) y PIB per cápita (US$ corrientes), 2021–2025.','Dinamismo del mercado y nivel de ingreso.',
+   legend(K3)+'<div class="chart"><canvas id="e2c1"></canvas></div>'+tableHTML(['País',...Y5,'Per cápita 2025'],[['Panamá','16,5','11,0','7,2','2,7','4,4','19.789,7'],['Perú','13,4','2,8','−0,4','3,5','3,4','9.684,4'],['Costa Rica','8,2','5,5','4,8','4,1','4,6','19.970,1']])+'<p class="src">Proyección FMI (WEO oct-2026): Panamá 5,0 % / 4,2 %; Perú 3,0 % / 2,9 %; Costa Rica 3,3 % / 3,5 % (2026 / 2027).</p>',
+   [{k:'pa',s:5,v:'Crec. 2025: 4,4 %'},{k:'pe',s:3,v:'Crec. 2025: 3,4 %'},{k:'cr',s:5,v:'Crec. 2025: 4,6 %'}],
+   'Panamá y Costa Rica muestran el perfil de actividad más fuerte. Panamá registró una recuperación muy elevada en 2021-2023 y creció 4,4 % en 2025; Costa Rica creció 4,6 % y su PIB per cápita llegó a US$19.970, ligeramente por encima de Panamá. Perú presentó una contracción en 2023 y su PIB per cápita (US$9.684) sigue bastante por debajo. Mayor crecimiento e ingreso pueden favorecer presupuestos empresariales, actividad inmobiliaria y demanda de consultoría.',
+   'Banco Mundial, World Development Indicators (NY.GDP.MKTP.KD.ZG y NY.GDP.PCAP.CD); FMI, WEO octubre 2026.'));
+  I.push(ind('demanda','2','Demanda agregada: consumo e inversión','Crecimiento real anual del consumo privado y de la inversión privada / FBKF (%), 2021–2025.','Capacidad de gasto y expansión de proyectos empresariales.',
+   legend(K3)+'<div class="grid2"><div class="chart" style="height:230px"><canvas id="e2c2a"></canvas></div><div class="chart" style="height:230px"><canvas id="e2c2b"></canvas></div></div><p class="muted" style="font-size:13px">Izquierda: consumo privado. Derecha: inversión privada (Panamá, Perú) y formación bruta de capital fijo (Costa Rica).</p>',
+   [{k:'pa',s:4,v:'Consumo e inversión 2025: 4,5 %'},{k:'pe',s:5,v:'Inversión privada 2025: 10,0 %'},{k:'cr',s:4,v:'Consumo 3,8 % · FBKF 3,9 %'}],
+   'En 2025 Perú presenta el mayor impulso de inversión: la inversión privada creció 10 % y el consumo 3,6 %. Panamá recuperó consumo e inversión (4,5 % ambos) tras la caída de 2024, con una trayectoria más volátil. Costa Rica es más estable (consumo 3,8 %, FBKF 3,9 %). Para una consultora B2B inmobiliaria, la inversión creciente puede acompañar nuevos proyectos y mayores presupuestos comerciales.',
+   'FMI, consultas del Artículo IV (Panamá 2024 y 2025; Perú 2026; Costa Rica 2025 y 2026).'));
+  I.push(ind('ipc','3','IPC e inflación','Inflación anual del IPC (%), 2021–2025, con complemento de coyuntura a septiembre de 2026.','Estabilidad de precios, costos y poder adquisitivo.',
+   legend(K3)+'<div class="chart"><canvas id="e2c3"></canvas></div>'+tableHTML(['Sep-2026','Mensual','Acumulada','12 meses'],[['Panamá','0,5 %','1,7 %*','2,8 %'],['Perú','0,14 %','4,02 %','4,17 %'],['Costa Rica','0,11 %','−0,39 %','0,34 %']])+'<p class="src">*Panamá define la acumulada como variación del promedio acumulado frente al mismo periodo del año anterior.</p>',
+   [{k:'pa',s:5,v:'2025: −0,2 %'},{k:'pe',s:3,v:'Sep-2026 interanual: 4,17 %'},{k:'cr',s:4,v:'Sep-2026 interanual: 0,34 %'}],
+   'Panamá tuvo inflación baja en todo 2021-2025 y cerró 2025 con −0,2 %; en septiembre de 2026 su variación interanual fue 2,8 %. Perú sufrió el mayor episodio inflacionario del grupo en 2022-2023 y, aunque bajó a 1,5 % en 2025, volvió a 4,17 % en septiembre de 2026. Costa Rica registró inflación muy baja e incluso negativa y volvió a terreno positivo (0,34 %). Precios estables facilitan presupuestos y contratos.',
+   'Banco Mundial (FP.CPI.TOTL.ZG); INEC Panamá, INEI Perú e INEC Costa Rica, septiembre 2026.'));
+  I.push(ind('tasa','4','Tasa de referencia y condiciones monetarias','Tasa de política monetaria al cierre de cada año (%), 2021–2025.','Costo del crédito y condiciones financieras para el sector inmobiliario.',
+   legend(['pe','cr'])+'<div class="chart"><canvas id="e2c4"></canvas></div>'+tableHTML(['Año','Panamá: rango Fed*','Perú: BCRP','Costa Rica: BCCR'],[['2021','0,00–0,25','2,50','1,25'],['2022','4,25–4,50','7,50','9,00'],['2023','5,25–5,50','6,75','6,00'],['2024','4,25–4,50','5,00','4,00'],['2025','3,50–3,75','4,25','3,25']])+'<p class="src">*Panamá no tiene banco central ni tasa propia; por su dolarización se muestra el rango de la Fed solo como referencia externa.</p>',
+   [{k:'pa',s:4,v:'Sin política monetaria propia'},{k:'pe',s:4,v:'TPM 2025: 4,25 %'},{k:'cr',s:5,v:'TPM 2025: 3,25 %'}],
+   'Perú y Costa Rica endurecieron su política en 2022-2023 y luego normalizaron: Costa Rica bajó de 9,00 % a 3,25 % y Perú de 7,50 % a 4,25 %. Panamá depende de las condiciones de Estados Unidos, cuyo rango cerró 2025 en 3,50 %-3,75 %. Menores tasas pueden favorecer crédito, inversión y actividad inmobiliaria. En Panamá la nota refleja condiciones externas favorables y la ausencia de autonomía monetaria.',
+   'BCRPData; Banco Central de Costa Rica; MEF Panamá; Reserva Federal de EE. UU.'));
+  I.push(ind('fiscal','5','Sostenibilidad fiscal: balance y deuda','Balance fiscal global y deuda pública (% del PIB), 2021–2025.','Estabilidad de las finanzas públicas y riesgo macroeconómico.',
+   legend(K3)+'<div class="grid2"><div class="chart" style="height:230px"><canvas id="e2c5a"></canvas></div><div class="chart" style="height:230px"><canvas id="e2c5b"></canvas></div></div><p class="muted" style="font-size:13px">Izquierda: balance fiscal. Derecha: deuda pública. Las coberturas institucionales difieren; la comparación es direccional.</p>',
+   [{k:'pa',s:3,v:'Deuda 2025: 65,53 %'},{k:'pe',s:5,v:'Deuda 2025: 30,2 %'},{k:'cr',s:4,v:'Deuda 2025: 61,1 %'}],
+   'Perú presenta la posición fiscal más sólida: su déficit bajó a 2,2 % del PIB en 2025 y la deuda cayó a 30,2 %. Costa Rica mejoró desde 2021, pero su deuda sigue cerca de 61 %. Panamá corrigió el déficit de 2024 (de −6,23 % a −3,67 %), pero su deuda llegó a 65,53 %. Finanzas públicas estables reducen el riesgo de ajustes abruptos de impuestos y crédito que afecten al sector inmobiliario.',
+   'MEF Panamá (SPNF y deuda bruta); FMI (Perú, SPNF; Costa Rica, Gobierno Central).'));
+  I.push(`<div class="sec" id="e2-cierre"><div class="sec-head"><div class="k">Comparación y conclusión</div><h2>No existe un país superior en todo</h2></div>
+   <div class="card">${tableHTML(['Indicador','Panamá','Perú','Costa Rica'],[['Actividad económica','5','3','5'],['Demanda agregada','4','5','4'],['IPC / inflación','5','3','4'],['Tasa de referencia','4','4','5'],['Sostenibilidad fiscal','3','5','4']])}<p class="src">Las calificaciones se presentan por indicador; la entrega no calcula un puntaje total porque sumar dimensiones distintas podría ocultar contrastes.</p></div>
+   <div class="grid3"><div class="card"><span class="pill">Mayor dinamismo</span><p>En 2025, Costa Rica creció 4,6 %, Panamá 4,4 % y Perú 3,4 %. Para 2026 el FMI proyecta a Panamá adelante (5,0 %).</p></div>
+   <div class="card"><span class="pill">Estabilidad</span><p>Costa Rica tiene el perfil más equilibrado; Perú sobresale en solidez fiscal (deuda 30,2 %); Panamá destaca por dinamismo, con deuda más alta y sin política monetaria propia.</p></div>
+   <div class="card"><span class="pill o">Para Triángulo Creativo</span><p>Panamá y Costa Rica ofrecen más ingreso y crecimiento; Perú, mejores amortiguadores fiscales e impulso de inversión. La decisión debe complementarse con el mercado inmobiliario, la competencia y los requisitos legales.</p></div></div></div>`);
+  $('#e2').innerHTML=I.join('');
+  buildSubnav('e2',[['proposito','Resumen'],['pib','Actividad'],['demanda','Demanda'],['ipc','Inflación'],['tasa','Tasas'],['fiscal','Fiscal'],['cierre','Conclusión']]);
+  buildFilter('e2',K3);
+  // ranking (promedio simple de las 5 notas, solo como lectura visual)
+  const notes={pa:[5,4,5,4,3],pe:[3,5,3,4,5],cr:[5,4,4,5,4]};
+  rankCards('#e2rank','e2',['Actividad','Demanda','Inflación','Tasas','Fiscal'],notes,'Como en la entrega, las notas se presentan por indicador y no se suma un puntaje total: sumar dimensiones distintas ocultaría los contrastes.',true);
+  if(!window.Chart) return;
+  const d=(a)=>K3.map(k=>a[k]);
+  mkChart('e2','e2c1',lineCfg(Y5,K3,d({pa:[16.5,11.0,7.2,2.7,4.4],pe:[13.4,2.8,-0.4,3.5,3.4],cr:[8.2,5.5,4.8,4.1,4.6]}),{title:{display:true,text:'Crecimiento real del PIB (%)'}}));
+  mkChart('e2','e2c2a',lineCfg(Y5,K3,d({pa:[5.3,3.0,4.8,-0.9,4.5],pe:[12.5,3.5,0.1,2.8,3.6],cr:[8.3,3.7,4.2,3.7,3.8]})));
+  mkChart('e2','e2c2b',lineCfg(Y5,K3,d({pa:[30.1,52.3,8.5,-0.9,4.5],pe:[35.2,0.0,-6.1,3.3,10.0],cr:[7.8,3.8,9.2,4.5,3.9]})));
+  mkChart('e2','e2c3',lineCfg(Y5,K3,d({pa:[1.6,2.9,1.5,0.7,-0.2],pe:[4.3,8.3,6.5,2.0,1.5],cr:[1.7,8.3,0.5,-0.4,-0.1]}),{title:{display:true,text:'Inflación anual (%)'}}));
+  mkChart('e2','e2c4',lineCfg(Y5,['pe','cr'],[[2.5,7.5,6.75,5.0,4.25],[1.25,9.0,6.0,4.0,3.25]],{title:{display:true,text:'Tasa de política monetaria (%)'}}));
+  mkChart('e2','e2c5a',barCfg(Y5,K3,d({pa:[-6.4,-4.0,-3.9,-6.23,-3.67],pe:[-2.5,-1.7,-2.7,-3.5,-2.2],cr:[-5.1,-2.7,-3.2,-3.7,-3.4]})));
+  mkChart('e2','e2c5b',lineCfg(Y5,K3,d({pa:[60.07,58.04,56.44,62.3,65.53],pe:[35.5,33.5,32.4,32.1,30.2],cr:[67.6,61.4,60.4,58.9,61.1]})));
+  mkChart('e2','e2radar',{type:'radar',data:{labels:['Actividad','Demanda','Inflación','Tasas','Fiscal'],datasets:ds(K3,K3.map(k=>notes[k])).map(x=>({...x,fill:true}))},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10}}},scales:{r:{min:0,max:5,ticks:{stepSize:1,display:false}}}}});
+}
+
+function ring(v,color){const p=v/5,r=34,c=2*Math.PI*r;return `<svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="${r}" fill="none" stroke="#eceef3" stroke-width="9"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${color}" stroke-width="9" stroke-linecap="round" stroke-dasharray="${c*p} ${c}" transform="rotate(-90 42 42)"/></svg>`}
+function rankCards(sel,scope,labels,notes,foot,noRank){
+  const av=a=>{const v=a.filter(x=>x!=null);return v.reduce((s,x)=>s+x,0)/v.length};
+  const keys=noRank?Object.keys(notes):Object.keys(notes).sort((a,b)=>(a==='co')-(b==='co')||av(notes[b])-av(notes[a]));
+  let pos=0;
+  $(sel).innerHTML=keys.map(k=>{const v=av(notes[k]);if(k!=='co')pos++;
+    return `<div class="rk" data-k="${k}" style="border-top-color:${COL[k]}"><div class="pos">${noRank?'Notas por indicador':(k==='co'?'Referencia':pos+'.º')}</div><h3>${NAME[k]}</h3>${noRank?'':`<div class="val">${ring(v,COL[k])}<div><b>${fmt(v,2)}</b><div class="muted" style="font-size:13px">de 5</div></div></div>`}`+
+    labels.map((l,i)=>`<div class="bar"><span>${l}</span><span class="tr"><i style="width:${(notes[k][i]||0)/5*100}%;background:${COL[k]}"></i></span><b>${notes[k][i]==null?'—':fmt(notes[k][i],notes[k][i]%1?2:0)}</b></div>`).join('')+'</div>'}).join('')+
+    (foot?`<p class="src" style="grid-column:1/-1">${foot}</p>`:'');
+}
+
+/* =========================================================
+   ENTREGA 3 · A5
+   ========================================================= */
+const K4=['pe','pa','cr','co'];
+const E3=[
+ {env:'cultural',n:1,name:'Entorno cultural',q:'¿Qué tendría que adaptar la consultora para venderle a una inmobiliaria de ese país?',inds:[
+  {id:'c1',num:'1.1',t:'Dimensiones de Hofstede y distancia cultural',mide:'Distancia al poder, individualismo, masculinidad y control de la incertidumbre (0 a 100).',why:'Cambian la forma de negociar, decidir y construir confianza con el cliente.',
+   chart:{id:'g-c1',type:'hbar',labels:['Distancia al poder','Individualismo','Masculinidad','Control incertidumbre'],data:{pe:[64,16,42,87],pa:[95,11,44,86],cr:[35,15,21,86],co:[67,13,64,80]},y:{min:0,max:100}},
+   table:[['País','PDI','IDV','MAS','UAI','Distancia vs. Col.*'],['Perú','64','16','42','87','23,5'],['Panamá','95','11','44','86','35,0'],['Costa Rica','35','15','21','86','54,0'],['Colombia','67','13','64','80','0,0']],tnote:'*Distancia euclidiana simple; cálculo del equipo, no es un índice oficial.',
+   notes:{pe:[4,'Distancia 23,5'],pa:[4,'Distancia 35,0'],cr:[3,'Distancia 54,0'],co:[5,'Referencia']},
+   an:'Los cuatro países son colectivistas (IDV ≤ 16) y evitan la incertidumbre (UAI ≥ 80): se compra por confianza y con reglas claras. Perú es el más parecido a Colombia. Panamá tiene la mayor distancia al poder (95): decide el dueño o gerente. Costa Rica es el más distinto: jerarquía baja (35) y cultura poco competitiva (21), que prefiere consenso. En los tres sirve la venta consultiva con referidos y contratos detallados; en Panamá hay que llegar a la alta dirección y en Costa Rica usar un discurso más colaborativo. Costa Rica recibe 3 por la mayor adaptación que exige.',
+   src:'Hofstede Insights. (s. f.). <i>Country comparison tool</i>. <a href="https://www.hofstede-insights.com/country-comparison-tool" target="_blank" rel="noopener">hofstede-insights.com</a>'},
+  {id:'c2',num:'1.2',t:'Idioma predominante y nivel de inglés',mide:'Idioma oficial y dominio del inglés de la población adulta (EF EPI).',why:'Define si la consultora puede operar en español o debe traducir propuestas, software y soporte.',
+   chart:{id:'g-c2',type:'bar',labels:['EF EPI 2025','EF EPI 2026'],data:{pe:[519,523],pa:[491,485],cr:[516,488],co:[480,481]},y:{min:450,max:540}},
+   table:[['País','Idioma','EPI 2025','EPI 2026','Puesto 2026'],['Perú','Español','519','523','42'],['Panamá','Español','491','485','65'],['Costa Rica','Español','516','488','64'],['Colombia','Español','480','481','68']],
+   notes:{pe:[5,'Español · EPI 523'],pa:[5,'Español · EPI 485'],cr:[5,'Español · EPI 488'],co:[5,'Español · EPI 481']},
+   an:'Los cuatro países tienen el español como idioma oficial. En inglés, Perú es el mejor del grupo (523, puesto 42), mientras Colombia (481), Panamá (485) y Costa Rica (488) quedan cerca del promedio mundial (485); Costa Rica cayó 28 puntos en la última edición. La consultora puede vender, dar soporte, capacitar y entregar el CRM y los tableros en español, sin traducir propuestas ni software, lo que reduce costos de entrada. El inglés solo importaría para clientes que venden a compradores extranjeros. Por eso todos reciben 5.',
+   src:'EF Education First. (2025, 2026). <i>EF English Proficiency Index</i> [fichas por país]. <a href="https://www.ef.com/epi/" target="_blank" rel="noopener">ef.com/epi</a>'},
+  {id:'c3',num:'1.3',t:'Población urbana',mide:'Porcentaje de la población que vive en zonas urbanas, 2021–2025.',why:'Una ciudad que crece necesita más vivienda y más inmobiliarias.',
+   chart:{id:'g-c3',type:'line',labels:Y5,data:{pe:[83.95,84.37,84.78,85.19,85.60],pa:[65.81,65.82,65.86,66.00,66.15],cr:[77.99,78.44,78.88,79.31,79.73],co:[77.83,78.05,78.28,78.52,78.78]},y:{min:60,max:90}},
+   notes:{pe:[5,'85,6 % (2025)'],pa:[3,'66,2 % (2025)'],cr:[4,'79,7 % (2025)'],co:[4,'78,8 % (2025)']},
+   an:'Perú es el más urbano (85,6 % en 2025) y sube cada año, con la demanda concentrada en Lima. Costa Rica (79,7 %) supera levemente a Colombia (78,8 %). Panamá es el menos urbano (66,2 %) y casi no cambió en cinco años. Más población urbana concentra la demanda de vivienda y el número de constructoras e inmobiliarias que pueden contratar CRM, datos y marketing. Perú recibe 5; Colombia y Costa Rica 4; Panamá 3, porque su mercado urbano es más pequeño y concentrado en la capital.',
+   src:'Banco Mundial. (2026). <i>Urban population (% of total population)</i> [SP.URB.TOTL.IN.ZS; act. 11-nov-2026]. <a href="https://data.worldbank.org/indicator/SP.URB.TOTL.IN.ZS" target="_blank" rel="noopener">data.worldbank.org</a>'}
+ ]},
+ {env:'politico',n:2,name:'Entorno político y legal',q:'Si la consultora firma un contrato allá y el cliente no paga, ¿qué tan protegida queda?',inds:[
+  {id:'p1',num:'2.1',t:'Regulación del sector: protección de datos personales',mide:'Existencia de ley de protección de datos y de una autoridad que la haga cumplir.',why:'La consultora maneja bases de compradores de sus clientes en CRM.',
+   cards:{pe:'Ley 29733 (2011) y nuevo reglamento D. S. 016-2024-JUS, vigente desde marzo de 2025. Alcanza a responsables no domiciliados que ofrecen servicios en Perú; reporte de incidentes en 48 horas.',pa:'Ley 81 de 26 de marzo de 2019 (Gaceta Oficial 28743-A), reglamentada por el Decreto Ejecutivo 285 de 2021. Autoridad: ANTAI.',cr:'Ley 8968 de 7 de julio de 2011 (La Gaceta 170), con reglamento Decreto 37554-JP. Autoridad: PRODHAB.',co:'Ley 1581 de 2012. Autoridad: SIC. Marco que la consultora ya cumple.'},
+   notes:{pe:[4,'Marco exigente para extranjeros'],pa:[4,'Ley y autoridad vigentes'],cr:[4,'Ley y autoridad vigentes'],co:[5,'Referencia']},
+   an:'Los cuatro países tienen ley y autoridad de protección de datos. Perú tiene el marco más reciente y exigente: su reglamento de 2025 alcanza a empresas extranjeras que tratan datos de peruanos. La consultora necesita cláusulas de encargo de tratamiento, consentimientos y reglas de transferencia internacional desde Medellín. Hay reglas claras en todos, pero cada país agrega trámites: Perú, Panamá y Costa Rica reciben 4.',
+   src:'MINJUSDH Perú. (2024). <i>Nuevo reglamento de la Ley de Protección de Datos Personales</i> · CMS. (2025) · Asamblea Nacional de Panamá. (2019). <i>Ley 81 sobre protección de datos personales</i>. <a href="https://www.superbancos.gob.pa/documentos/sac/leyes/ley_2019_645_3008.pdf" target="_blank" rel="noopener">superbancos.gob.pa</a> · Asamblea Legislativa de Costa Rica. (2011). <i>Ley 8968</i>. <a href="https://www.archivonacional.go.cr/web/normativa/ley8968.docx" target="_blank" rel="noopener">archivonacional.go.cr</a>'},
+  {id:'p2',num:'2.2',t:'Indicadores Mundiales de Gobernanza (WGI)',mide:'Estado de derecho, control de la corrupción y calidad regulatoria (0 a 100). El gráfico muestra estado de derecho, 2021–2025.',why:'Un mejor estado de derecho reduce el riesgo de que un cliente no pague sin recurso.',
+   chart:{id:'g-p2',type:'line',labels:Y5,data:{pe:[50.2,50.8,50.5,50.1,47.8],pa:[55.2,55.2,53.8,53.2,53.6],cr:[68.3,69.2,68.6,68.3,68.6],co:[50.8,50.1,49.2,49.3,48.3]},y:{min:40,max:75}},
+   table:[['2025','Estado de derecho','Control corrupción','Calidad regulatoria'],['Perú','47,8','32,8','57,5'],['Panamá','53,6','36,8','53,4'],['Costa Rica','68,6','62,0','64,8'],['Colombia','48,3','41,8','52,1']],
+   notes:{pe:[2,'Estado de derecho 47,8'],pa:[3,'Estado de derecho 53,6'],cr:[5,'Estado de derecho 68,6'],co:[3,'Estado de derecho 48,3']},
+   an:'Costa Rica lidera en las tres dimensiones (68,6; 62,0; 64,8 en 2025). Panamá supera a Colombia en estado de derecho (53,6 frente a 48,3), pero no en control de la corrupción (36,8 frente a 41,8). Perú tiene el estado de derecho y el control de la corrupción más bajos (47,8 y 32,8), en caída desde 2021, aunque su calidad regulatoria (57,5) supera a la colombiana. Perú recibe 2 porque sus instituciones de justicia y anticorrupción son las más débiles y empeoran: conviene cobrar por adelantado y pactar arbitraje.',
+   src:'Banco Mundial. (2026). <i>Worldwide Governance Indicators</i> [GOV_WGI_RL.SC, CC.SC, RQ.SC; act. 25-sep-2026]. <a href="https://www.worldbank.org/en/publication/worldwide-governance-indicators" target="_blank" rel="noopener">worldbank.org</a>'},
+  {id:'p3',num:'2.3',t:'Riesgo político y riesgo país',mide:'Evaluación de Coface del riesgo de impago empresarial (A1 mejor a E peor) y del clima de negocios.',why:'Elecciones, conflictos o cambios de reglas pueden frenar la operación o los pagos.',
+   table:[['País','Riesgo país','Clima de negocios','Actualización','Riesgo destacado'],['Perú','B','A4','Ago-2026','Inestabilidad política y remociones presidenciales'],['Panamá','B','A4','Ago-2025','Corrupción, carga fiscal de la deuda'],['Costa Rica','A4','A3','Feb-2026','Dependencia de EE. UU.; sin alertas de inestabilidad'],['Colombia','C','A4','Nov-2025','Polarización, justicia lenta, seguridad']],
+   notes:{pe:[3,'Coface B'],pa:[4,'Coface B'],cr:[5,'Coface A4'],co:[2,'Coface C']},
+   an:'Costa Rica tiene la mejor evaluación (A4 y A3). Perú y Panamá están en B, un escalón mejor que Colombia (C). En Perú, Coface señala la inestabilidad política recurrente; en Panamá, la corrupción y la presión fiscal. Cambios de reglas o crisis políticas pueden frenar proyectos inmobiliarios y retrasar pagos. Costa Rica 5; Panamá 4; Perú 3 por su inestabilidad política; Colombia 2, porque su riesgo país C es el más alto del grupo.',
+   src:'Coface. (2025–2026). <i>Country risk files</i>. <a href="https://www.coface.com/news-economy-and-insights/business-risk-dashboard/country-risk-files" target="_blank" rel="noopener">coface.com</a>'}
+ ]},
+ {env:'tecnologico',n:3,name:'Entorno tecnológico y geoambiental',q:'¿Podría la consultora atender a ese cliente desde Medellín, o necesita estar allá?',inds:[
+  {id:'t1',num:'3.1',t:'Usuarios de internet',mide:'Porcentaje de la población que usa internet, 2020–2024 (2025 aún sin publicar).',why:'El CRM, los datos y el marketing digital dependen de la conectividad.',
+   chart:{id:'g-t1',type:'line',labels:['2020','2021','2022','2023','2024'],data:{pe:[65.3,71.1,74.7,79.5,82.0],pa:[64.8,66.0,67.3,68.5,72.8],cr:[80.5,82.7,82.6,85.4,87.2],co:[69.8,73.0,72.8,77.3,79.3]},y:{min:60,max:90}},
+   notes:{pe:[5,'82,0 % (2024)'],pa:[3,'72,8 % (2024)'],cr:[5,'87,2 % (2024)'],co:[4,'79,3 % (2024)']},
+   an:'Costa Rica tiene la mayor conectividad (87,2 % en 2024). Perú (82,0 %) ya supera a Colombia (79,3 %) tras crecer casi 17 puntos desde 2020. Panamá es el más rezagado (72,8 %), aunque mejora. El CRM, los tableros, el marketing digital y la formación remota dependen de que inmobiliarias y compradores estén conectados; con alta conectividad la consultora puede atender desde Medellín. Panamá recibe 3 porque casi tres de cada diez personas no usan internet.',
+   src:'Banco Mundial. (2026). <i>Individuals using the Internet (% of population)</i> [IT.NET.USER.ZS]. <a href="https://data.worldbank.org/indicator/IT.NET.USER.ZS" target="_blank" rel="noopener">data.worldbank.org</a>'},
+  {id:'t2',num:'3.2',t:'Índice Global de Innovación (GII)',mide:'Puesto mundial entre 139 economías, 2022–2026 (menor es mejor).',why:'Mide acceso a tecnología, talento e innovación; indica qué tan digital es el cliente.',
+   chart:{id:'g-t2',type:'line',labels:['2022','2023','2024','2025','2026'],data:{pe:[65,76,75,80,80],pa:[81,84,82,82,89],cr:[68,74,70,72,70],co:[63,66,61,71,78]},y:{reverse:true,min:55,max:95,title:{display:true,text:'Puesto'}}},
+   notes:{pe:[3,'Puesto 80 (2026)'],pa:[2,'Puesto 89 (2026)'],cr:[4,'Puesto 70 (2026)'],co:[3,'Puesto 78 (2026)']},
+   an:'Costa Rica es el mejor del grupo en 2026 (puesto 70). Colombia cayó del 61 (2024) al 78. Perú se mantiene en el 80 y Panamá retrocedió al 89, el peor puesto de su serie reciente. Un mejor ecosistema de innovación indica clientes más digitales y talento local para contratar o aliarse. Panamá recibe 2 porque su baja posición sugiere menos talento tecnológico y clientes menos digitalizados, lo que obliga a la consultora a aportar todo el componente técnico.',
+   src:'OMPI. (2025, 2026). <i>Global Innovation Index: rankings por economía</i>. <a href="https://www.wipo.int/edocs/gii-ranking/2026/co.pdf" target="_blank" rel="noopener">wipo.int</a>'},
+  {id:'t3',num:'3.3',t:'Ubicación, clima e infraestructura',mide:'Huso horario, vuelo directo desde Medellín y exposición a riesgos naturales.',why:'Define si se atiende desde Medellín en el mismo horario y qué riesgos afectan los proyectos.',
+   table:[['País','Huso','Vuelo directo desde MDE','Riesgo natural (Coface)'],['Perú (Lima)','UTC−5','LATAM, JetSMART · ≈ 2,5 h','El Niño, huaicos y sismos'],['Panamá','UTC−5','Copa · ≈ 1 h 25 min','Sequía que afecta el Canal'],['Costa Rica (San José)','UTC−6','Avianca, Wingo · ≈ 2 h','Exposición a desastres naturales'],['Colombia','UTC−5','—','WorldRiskIndex 2025: puesto 4 de 193']],
+   notes:{pe:[4,'Mismo huso · 2,5 h'],pa:[5,'Mismo huso · 1 h 25'],cr:[4,'1 h menos · 2 h'],co:[4,'Alto riesgo natural']},
+   an:'Los tres están a menos de tres horas de vuelo directo desde Rionegro. Panamá es el más cercano (1 h 25 min) y comparte huso horario con Colombia; Perú también comparte huso, pero su vuelo es más largo y su riesgo de desastres es alto (puesto 14 mundial, con El Niño y sismos según Coface); Costa Rica tiene una hora de diferencia. La consultora puede atender en horario laboral desde Medellín y viajar en el día. El riesgo climático encarece los proyectos de sus clientes.',
+   src:'WorldRiskReport 2025 (vía Bloomberg Línea, 2026); FlightConnections y KAYAK (2026); Coface (2025–2026).'}
+ ]},
+ {env:'comercio',n:4,name:'Entorno de comercio internacional',q:'¿Qué tan fácil es para una empresa colombiana vender servicios en ese país?',inds:[
+  {id:'x1',num:'4.1',t:'Acuerdos comerciales vigentes',mide:'Acuerdos con Colombia y si cubren servicios o comercio electrónico.',why:'Para una consultora que exporta servicios importa el capítulo de servicios e inversión.',
+   cards:{pe:'Comunidad Andina y Protocolo Adicional de la Alianza del Pacífico, con capítulos de inversión, servicios transfronterizos y comercio electrónico.',pa:'Solo el AAP N.° 29 (mercancías). El TLC de 2013 no figura como vigente. Sin beneficio para servicios.',cr:'TLC vigente desde 2016, con capítulos de inversión, servicios transfronterizos, servicios financieros y comercio electrónico.',co:'País de referencia.'},
+   notes:{pe:[5,'Cubre servicios'],pa:[2,'Solo mercancías'],cr:[5,'Cubre servicios'],co:[null,'']},
+   an:'Perú y Costa Rica tienen acuerdos que incluyen servicios transfronterizos, inversión y comercio electrónico. Con Panamá solo rige un acuerdo parcial para mercancías. El capítulo de servicios da trato nacional frente a consultoras locales y el de inversión protege una futura oficina. Panamá recibe 2 porque la consultora entraría sin protección de tratado para sus servicios ni para su inversión.',
+   src:'MinCIT. (s. f.). <i>Acuerdos comerciales vigentes</i>. <a href="https://www.tlc.gov.co/acuerdos/vigente" target="_blank" rel="noopener">tlc.gov.co</a> · Alianza del Pacífico, Protocolo Adicional · Asamblea Legislativa de Costa Rica, Exp. 18.805.'},
+  {id:'x2',num:'4.2',t:'Instituciones de apoyo',mide:'Entidades que ayudan a una empresa colombiana a vender en el país.',why:'Reducen el costo de entrar: contactos, agendas comerciales e información de mercado.',
+   cards:{pe:'ProColombia (desde la Embajada de Colombia en Lima) · COLPERÚ, Cámara de Comercio e Integración Colombo Peruana · Cámara de Comercio de Lima · PROMPERÚ.',pa:'ProColombia (desde la Embajada en Panamá) · CICOLPA, Cámara de Comercio e Industrias Colombo Panameña · MICI, Dirección SEM.',cr:'ProColombia (desde la Embajada en San José) · PROCOMER · CINDE.',co:'ProColombia · MinCIT · Analdex.'},
+   notes:{pe:[5,'Cámara binacional'],pa:[5,'Cámara binacional'],cr:[4,'Apoyo de agencias estatales'],co:[null,'']},
+   an:'ProColombia acompaña a los exportadores en los tres países; desde 2026 el Gobierno trasladó sus oficinas del exterior a las embajadas de Colombia. Perú y Panamá cuentan además con cámaras binacionales activas (COLPERÚ y CICOLPA), que conectan con empresas locales; en Costa Rica el apoyo viene de PROCOMER y CINDE. Estas entidades facilitan contactos con constructoras, ruedas de negocio y datos de mercado. Costa Rica recibe 4 porque su apoyo depende de agencias estatales y no de una red empresarial binacional.',
+   src:'Portafolio. (2026). <i>Gobierno cierra oficinas de ProColombia en el exterior para reducir costos</i>. <a href="https://www.portafolio.co/economia/gobierno/gobierno-cierra-oficinas-de-procolombia-en-el-exterior-para-reducir-costos-500967" target="_blank" rel="noopener">portafolio.co</a> · Cámara de Comercio de Lima · Revista E&N (2022) · PROCOMER · CINDE.'},
+  {id:'x3',num:'4.3',t:'Balanza comercial de bienes con Colombia',mide:'Exportaciones de bienes de Colombia (US$ M), 2021–2025, e importaciones y saldo en la tabla.',why:'Muestra la intensidad de la relación comercial con Colombia.',
+   chart:{id:'g-x3',type:'bar',labels:Y5,data:{pe:[1137.1,1172.0,1195.9,1438.7,2039.2],pa:[2426.6,5840,4659,4309.9,3680.3],cr:[342,416,402,425,null]},y:{}},keys:['pe','pa','cr'],
+   table:[['US$ M','2021','2022','2023','2024','2025'],['Perú · export.','1.137,1','1.172,0','1.195,9','1.438,7','2.039,2'],['Perú · import.','868,9','1.055,2','821,4','934,0','1.127,3'],['Perú · saldo','268,2','116,8','374,5','504,7','911,9'],['Panamá · export.','2.426,6','5.840','4.659','4.309,9','3.680,3'],['C. Rica · export.','342','416','402','425','s. d.'],['C. Rica · import.','92','95','77','93','s. d.'],['C. Rica · saldo','250','321','325','332','s. d.']],tnote:'Perú y Costa Rica: datos espejo (ADEX y COMEX). Panamá mezcla fuentes por año (DANE, OEC, WITS, Analdex); sus importaciones desde Panamá son marginales.',
+   notes:{pe:[5,'Superávit 2025: 911,9 M'],pa:[3,'Mayor destino, pero petrolero'],cr:[4,'Superávit estable'],co:[null,'']},
+   an:'Colombia tiene superávit con los tres. Con Perú las exportaciones crecieron de 1.137 a 2.039 millones y el superávit llegó a 912 millones en 2025. Con Costa Rica el superávit es estable (250 a 332 millones). Panamá es el mayor destino (3.680 millones en 2025), pero sobre todo de petróleo crudo, y ha caído desde 2022. No se encontraron datos públicos de comercio bilateral de servicios. Panamá recibe 3 porque su volumen no refleja demanda de servicios.',
+   src:'ADEX (2026), perfil Perú–Colombia · COMEX Costa Rica (2025), Informe de labores · Portafolio/DANE (2022) · OEC · WITS (2023) · Analdex (2026).'},
+  {id:'x4',num:'4.4',t:'Desempeño logístico (LPI) y ruta de exportación',mide:'Índice de desempeño logístico 2023 (1 a 5) y ruta por la que llega el servicio.',why:'Define el costo de estar presente y si basta la entrega remota desde Medellín.',
+   chart:{id:'g-x4',type:'bar',labels:['LPI 2023'],data:{pe:[3.0],pa:[3.1],cr:[2.9],co:[2.9]},y:{min:2.5,max:3.3}},
+   table:[['País','LPI 2023','Puesto','Ruta del servicio'],['Perú','3,0','61','Remota + vuelos MDE–LIM'],['Panamá','3,1','57','Remota + vuelos MDE–PTY'],['Costa Rica','2,9','66','Remota + vuelos MDE–SJO'],['Colombia','2,9','66','Origen: Medellín']],
+   notes:{pe:[4,'LPI 3,0'],pa:[5,'LPI 3,1'],cr:[4,'LPI 2,9'],co:[4,'LPI 2,9']},
+   an:'Panamá tiene el mejor LPI (3,1), seguido de Perú (3,0); Costa Rica empata con Colombia (2,9). Como la consultora vende servicios, la ruta es: salida desde Medellín, entrega remota (reuniones virtuales, CRM y tableros en la nube) y viajes puntuales desde Rionegro con vuelo directo a Lima, Panamá o San José, todos de menos de tres horas. No necesita oficina para empezar.',
+   src:'Banco Mundial. (2023). <i>Logistics Performance Index</i>. <a href="https://lpi.worldbank.org/international/global" target="_blank" rel="noopener">lpi.worldbank.org</a> · Analdex (2023).'}
+ ]},
+ {env:'inversion',n:5,name:'Entorno de inversión extranjera directa',q:'¿Qué tan bienvenida sería la consultora si decidiera instalarse allá?',inds:[
+  {id:'i1',num:'5.1',t:'Flujos de inversión entre Colombia y el país',mide:'El gráfico muestra la IED neta recibida por cada país (% del PIB, 2021–2025); la tabla, los flujos bilaterales verificados.',why:'Una relación de inversión previa facilita alianzas o una futura sede.',
+   chart:{id:'g-i1',type:'line',labels:Y5,data:{pe:[3.15,4.63,1.64,2.30,3.09],pa:[2.72,3.09,3.26,2.41,1.04],cr:[5.48,7.34,6.06,5.59,5.44],co:[3.00,4.97,4.58,3.25,2.53]},y:{beginAtZero:true}},
+   table:[['Flujo bilateral verificado','US$ M','Periodo'],['IED de Colombia en Panamá (INEC)','784,0 · 221,1 · 472,2','2022 · 2023 · 2024'],['Colombia → Panamá (BanRep)','923,3','1.er sem. 2025'],['Colombia → Costa Rica (BanRep)','1.015','2.º trim. 2026'],['Colombia → Perú (BanRep)','135','1.er sem. 2024'],['Panamá → Colombia','Top 5 de inversionistas','2025']],
+   notes:{pe:[3,'Flujos verificados menores'],pa:[5,'1.er destino de la inversión colombiana'],cr:[4,'IED 5,4 % del PIB'],co:[null,'']},
+   an:'Panamá es el principal destino de la inversión colombiana: 923 millones solo en el primer semestre de 2025, y además es de los mayores inversionistas en Colombia. Costa Rica recibió 1.015 millones de Colombia en el segundo trimestre de 2026 y tiene la IED total más alta del grupo (5,4 % del PIB en 2025). Con Perú los flujos verificados son menores. Una relación de inversión previa significa empresas colombianas instaladas, posibles clientes y aliados para una futura sede.',
+   src:'Banco Mundial (BX.KLT.DINV.WD.GD.ZS) · INEC Panamá (2025) · Banco de la República (2026) · Infobae (2025) · Portafolio (2024).'},
+  {id:'i2',num:'5.2',t:'Principales sectores receptores de IED',mide:'Sectores que más inversión extranjera reciben en el país destino.',why:'Si lo inmobiliario o los servicios reciben IED, hay más clientes potenciales.',
+   cards:{pe:'Saldo ProInversión: minería 22,9 % (2024); en 2023, minería 23 %, finanzas 22 % y comunicaciones 18 %. Una de las mayores adquisiciones de 2024 fue inmobiliaria (CEPAL).',pa:'Flujos 2024: financiero 1.889,5 M y comercio 609,1 M. Construcción 51,7 M, profesionales 50,0 M e inmobiliario 2,4 M.',cr:'IED 2025: 5.121,8 M. Zona franca 66,4 %, definitivo 15,2 %, turismo 7,5 %, inmobiliario 6,9 % (+20,2 %), financiero 3,1 %.',co:'País de referencia.'},
+   notes:{pe:[3,'Domina minería'],pa:[3,'Domina sector financiero'],cr:[4,'Inmobiliario 6,9 % y creciente'],co:[null,'']},
+   an:'Costa Rica es el único donde el sector inmobiliario aparece como rubro propio y creciente (6,9 % de la IED de 2025). En Perú domina la minería, aunque hubo operaciones inmobiliarias grandes en 2024. En Panamá domina el sector financiero y la construcción e inmobiliaria pesan poco. Si lo inmobiliario recibe inversión, hay más desarrolladores con capital que pueden contratar estrategia, CRM y datos.',
+   src:'ComexPerú (2025) · Energiminas (2024) · El Peruano/CEPAL (2025) · INEC Panamá (2025) · Revista Summa y Delfino (2026), datos BCCR y PROCOMER.'},
+  {id:'i3',num:'5.3',t:'Incentivos a la inversión',mide:'Agencia de promoción del país y apoyos a empresas extranjeras.',why:'Define qué tan bienvenida sería una oficina: beneficios, zonas francas y acompañamiento.',
+   cards:{pe:'ProInversión: registro de IED y convenios de estabilidad jurídica. Sociedad con 100 % de capital extranjero y representante local.',pa:'MICI, Dirección SEM: régimen de Sedes de Empresas Multinacionales (Ley 41 de 2007), 186 empresas. Panamá Pacífico: ISR de 5 % sobre servicios.',cr:'CINDE y PROCOMER: acompañamiento. Régimen de zonas francas (66,4 % de la IED), abierto a empresas de servicios.',co:'ProColombia; zonas francas.'},
+   notes:{pe:[3,'Enfocado en grandes proyectos'],pa:[4,'Régimen SEM'],cr:[4,'Zonas francas de servicios'],co:[null,'']},
+   an:'Los tres tienen agencia y reglas de trato al inversionista. Panamá ofrece el régimen SEM para sedes regionales y beneficios en Panamá Pacífico; Costa Rica, zonas francas abiertas a servicios con acompañamiento de CINDE; Perú, estabilidad jurídica vía ProInversión. Estos regímenes están pensados para empresas grandes; una consultora de 13 personas entraría primero de forma remota. Perú recibe 3 porque sus incentivos se enfocan en grandes proyectos y APP.',
+   src:'WAIPA · La Prensa (2025) · LexLatin · Revista Summa (2026) · ProInversión · CINDE.'}
+ ]}
+];
+
+function renderE3(){
+  const S=[];
+  S.push(`<div class="sec" id="e3-resumen"><div class="sec-head"><div class="k">Resumen</div><h2>Así queda cada país</h2><p>Nota media de cada entorno y promedio general (promedio de los cinco entornos). Colombia es la referencia; no se califica en los indicadores que no le aplican.</p></div><div class="rank" id="e3rank"></div></div>`);
+  E3.forEach(E=>{
+    S.push(`<div class="sec" id="e3-${E.env}"><div class="env-title"><span class="k">${E.n}</span><h2 style="font-size:clamp(26px,3vw,36px)">${E.name}</h2></div><p class="q">Pregunta guía: ${E.q}</p>`);
+    E.inds.forEach(I=>{
+      const keys=I.keys||K4;
+      let left='';
+      if(I.chart){left+=legend(keys)+`<div class="chart"><canvas id="${I.chart.id}"></canvas></div>`;}
+      if(I.cards){left+='<div class="par4">'+K4.map(k=>`<div class="pc ${k}" data-k="${k}"><b class="t">${NAME[k]}</b>${I.cards[k]}</div>`).join('')+'</div>';}
+      if(I.table){left+='<div style="margin-top:12px">'+tableHTML(I.table[0],I.table.slice(1))+'</div>';}
+      if(I.tnote){left+=`<p class="src">${I.tnote}</p>`;}
+      const nt=K4.map(k=>({k,s:I.notes[k][0],v:I.notes[k][1]}));
+      const words=I.an.trim().split(/\s+/).length;
+      S.push(`<div class="ind" id="ind-${I.id}"><div class="ind-h"><span class="badge">${I.num}</span><div><h3>${I.t}</h3><p>${I.mide}</p></div></div><p class="why"><b>Por qué importa:</b> ${I.why}</p>
+        <div class="ind-body"><div>${left}</div>${notas('e3',nt)}</div>
+        <div class="analysis"><b class="t">Análisis <span class="muted" style="font-weight:400;font-size:12.5px">· ${words} palabras (máx. 150)</span></b>${I.an}</div>
+        <p class="src"><b>Fuente:</b> ${I.src}</p>${I.pend?`<div class="note"><b>Pendiente:</b> ${I.pend}</div>`:''}</div>`);
+    });
+    S.push('</div>');
+  });
+  // tabla resumen
+  const rows=[];E3.forEach(E=>E.inds.forEach(I=>rows.push([E.name.replace('Entorno ','').replace(/^de /,''),`${I.num} · ${I.t}`,...K4.map(k=>I.notes[k][0])])));
+  S.push(`<div class="sec" id="e3-cierre"><div class="sec-head"><div class="k">Cierre</div><h2>Tabla resumen de calificaciones</h2><p>1 = desfavorable · 5 = favorable · «—» = no aplica para el país de referencia.</p></div><div class="card tbl"><table><tr><th>Entorno</th><th>Indicador</th>${K4.map(k=>`<th class="n">${NAME[k]}</th>`).join('')}</tr>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td>${r.slice(2).map((v,i)=>`<td class="n" data-k="${K4[i]}">${v==null?'—':`<span class="score s${v}"><b>${v}</b></span>`}</td>`).join('')}</tr>`).join('')}</table></div>
+   <div class="analysis"><b class="t">Lectura final</b>Costa Rica obtiene el mayor promedio por su institucionalidad, su conectividad y un sector inmobiliario que recibe inversión extranjera. Perú sobresale en urbanización, acuerdos con capítulo de servicios y comercio creciente con Colombia, pero su gobernanza es la más débil. Panamá es el más cercano y el principal destino de la inversión colombiana, aunque no tiene un acuerdo vigente que cubra servicios. El resultado complementa, sin reemplazar, la selección de Perú de la Entrega 1 y los resultados macroeconómicos de la Entrega 2.</div></div>`);
+  $('#e3').innerHTML=S.join('');
+  buildSubnav('e3',[['resumen','Resumen'],['cultural','Cultural'],['politico','Político y legal'],['tecnologico','Tecnológico'],['comercio','Comercio'],['inversion','Inversión'],['cierre','Cierre']]);
+  buildFilter('e3',['pe','pa','cr']);
+  // promedios
+  const envAvg={};K4.forEach(k=>{envAvg[k]=E3.map(E=>{const v=E.inds.map(I=>I.notes[k][0]).filter(x=>x!=null);return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;});});
+  const labels=E3.map(E=>E.name.replace('Entorno ','').replace(/^de /,'').replace('inversión extranjera directa','IED').replace('comercio internacional','Comercio').replace(/^./,c=>c.toUpperCase()));
+  rankCards('#e3rank','e3',labels,envAvg,'Promedio general = promedio de los cinco entornos. Colombia (referencia) se promedia solo con los entornos donde tiene nota.');
+  if(!window.Chart) return;
+  E3.forEach(E=>E.inds.forEach(I=>{if(!I.chart)return;const c=I.chart,keys=I.keys||K4,data=keys.map(k=>c.data[k]);
+    const cfg=c.type==='line'?lineCfg(c.labels,keys,data,c.y):barCfg(c.labels,keys,data,c.y,c.type==='hbar');mkChart('e3',c.id,cfg);}));
+  mkChart('e3','e3radar',{type:'radar',data:{labels,datasets:ds(['pe','pa','cr'],['pe','pa','cr'].map(k=>envAvg[k])).map(x=>({...x,fill:true}))},options:{maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:10}}},scales:{r:{min:0,max:5,ticks:{stepSize:1,display:false}}}}});
+}
+
+/* =========================================================
+   ROUTER Y MENÚ
+   ========================================================= */
+const rendered={};
+function route(){
+  let r=(location.hash||'#inicio').slice(1);
+  if(!['inicio','entrega-1','entrega-2','entrega-3'].includes(r)) r='inicio';
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+r));
+  document.querySelectorAll('.side-nav a[data-r]').forEach(a=>a.classList.toggle('active',a.dataset.r===r));
+  if(!rendered[r]){rendered[r]=1; if(r==='entrega-1')renderE1(); if(r==='entrega-2')renderE2(); if(r==='entrega-3')renderE3();}
+  document.title=({inicio:'Entregas del proyecto','entrega-1':'Entrega 1 · Realidad empresarial','entrega-2':'Entrega 2 · Entorno macroeconómico','entrega-3':'Entrega 3 · Análisis de entornos'})[r]+' · Triángulo Creativo | Aldea Global 2';
+  window.scrollTo(0,0); $('#side').classList.remove('open');
+}
+window.addEventListener('hashchange',route);
+$('#menuBtn').onclick=()=>$('#side').classList.add('open');
+$('#sideClose').onclick=()=>$('#side').classList.remove('open');
+route();
+</script>
+</body>
+</html>
